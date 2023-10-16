@@ -1,7 +1,13 @@
-package screens;
+package src;
+
 
 import javax.swing.*;
+
 import java.awt.*;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 public class RegisterScreen extends JFrame {
 
@@ -151,6 +157,8 @@ public class RegisterScreen extends JFrame {
         JOptionPane.showMessageDialog(null, name);
         JOptionPane.showMessageDialog(null, user);
         JOptionPane.showMessageDialog(null, password);
+        Database d1 = new Database();
+        d1.registerUser("A", "A", "A");
     }
 
 
