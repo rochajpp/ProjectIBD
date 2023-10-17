@@ -154,11 +154,18 @@ public class RegisterScreen extends JFrame {
             password = password + pass[i];
         }
 
-        JOptionPane.showMessageDialog(null, name);
-        JOptionPane.showMessageDialog(null, user);
-        JOptionPane.showMessageDialog(null, password);
         Database d1 = new Database();
-        d1.registerUser("A", "A", "A");
+        
+        try{
+            d1.registerUser(name, user, password);
+            System.out.println("Sucessfully!");
+        }catch(Exception e){
+            System.err.println(e);
+        }
+
+        new LoginScreen();
+        this.dispose();
+        
     }
 
 
