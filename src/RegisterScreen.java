@@ -24,6 +24,13 @@ public class RegisterScreen extends JFrame {
 
     public RegisterScreen() {
         initComponents();
+
+        Dimension screenSize = getToolkit().getScreenSize();
+
+        int width = getWidth();
+        int height = getHeight();
+
+       setLocation((screenSize.width- width) / 2, (screenSize.height - height) / 2);
     }
 
     /**
@@ -154,18 +161,25 @@ public class RegisterScreen extends JFrame {
             password = password + pass[i];
         }
 
-        Database d1 = new Database();
-        
-        try{
-            d1.registerUser(name, user, password);
-            System.out.println("Sucessfully!");
-        }catch(Exception e){
-            System.err.println(e);
-        }
+        if(name.isEmpty() || user.isEmpty() || password.isEmpty()){
+            JOptionPane.showMessageDialog(null, "Fill in all fields!");
+        }else{
 
-        new LoginScreen();
-        this.dispose();
-        
+            Database d1 = new Database();
+            
+            try{
+                boolean register = d1.registerUser(name, user, password);
+                if(!register){
+                    JOptionPane.showMessageDialog(null, "User already exist!");       
+                }else{
+                    JOptionPane.showMessageDialog(null, "User created sucessfully!");
+                    new LoginScreen();
+                    this.dispose();
+                }      
+            }catch(Exception e){
+                System.err.println(e);
+            }    
+        }
     }
 
 

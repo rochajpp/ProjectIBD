@@ -17,6 +17,11 @@ public class LoginScreen extends JFrame {
 
     public LoginScreen() {
         initComponents();
+
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int width = getWidth();
+        int height = getHeight();
+        setLocation((screenSize.width - width) / 2, (screenSize.height - height) / 2);
     }
 
     
@@ -112,7 +117,18 @@ public class LoginScreen extends JFrame {
     }                     
 
     private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {                                               
-        // TODO add your handling code here:
+        
+        String user = jTextField1.getText();
+        char[] pass = jPasswordField1.getPassword();
+        String password = "";
+        for(int i = 0; i < pass.length; i++){
+            password = password + pass[i];
+        }
+
+        Database d = new Database();
+
+        d.checkLogin(user, password);
+
     }                                              
 
     private void jToggleButton2ActionPerformed(java.awt.event.ActionEvent evt) {                                               
