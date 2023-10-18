@@ -1,9 +1,13 @@
-package src;
+package src.screens;
 
 
 import javax.swing.*;
 
+import src.Database;
+
 import java.awt.*;
+
+import src.entities.*;
 
 public class LoginScreen extends JFrame {
 
@@ -120,14 +124,20 @@ public class LoginScreen extends JFrame {
         
         String user = jTextField1.getText();
         char[] pass = jPasswordField1.getPassword();
-        String password = "";
-        for(int i = 0; i < pass.length; i++){
-            password = password + pass[i];
-        }
+        String password = new String(pass);
+        
 
         Database d = new Database();
 
-        d.checkLogin(user, password);
+        User userLogin = d.checkLogin(user, password);
+        if(userLogin.getId() == -1){
+            JOptionPane.showMessageDialog(null, "Ocorreu um erro, contate o administrador!");
+        } else if(userLogin.getUser() == null){
+            JOptionPane.showMessageDialog(null, "Credenciais incorretas!");
+        } else{
+            JOptionPane.showMessageDialog(null, "Logado com sucesso!");
+        }
+
 
     }                                              
 

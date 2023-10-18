@@ -1,7 +1,9 @@
-package src;
+package src.screens;
 
 
 import javax.swing.*;
+
+import src.Database;
 
 import java.awt.*;
 

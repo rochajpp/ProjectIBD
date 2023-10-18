@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.*;
+import src.entities.*;
 
 import com.mysql.cj.xdevapi.Statement;
 
@@ -51,7 +52,7 @@ public class Database {
 
     }
 
-    public boolean checkLogin(String user, String password){
+    public User checkLogin(String user, String password){
         try{
             Connection connection = DriverManager.getConnection(this.url, this.user, this.password);
 
@@ -61,25 +62,27 @@ public class Database {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
 
             ResultSet result = preparedStatement.executeQuery();
-
-            String passDb = result.getString("password");
-
-            if(passDb != password || !result.next()){
-                return false;
+            User userCheck = new User();
+            while(result.next()){
+                String passDb = result.getString("password");
+                if(!passDb.equals(password)){
+                    return new User();
+                }
+                userCheck = new User(result.getInt("id"), result.getString("name"), result.getString("user"), result.getString("password"));
             }
-
-            
-
             preparedStatement.close();
             connection.close();
 
+            return userCheck;
            
             
         }catch(Exception e){
             System.err.println(e);
+            return new User(-1);
         }
 
-        return true;
+        
     }
+
 
 }
