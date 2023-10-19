@@ -164,7 +164,7 @@ public class RegisterScreen extends JFrame {
         }
 
         if(name.isEmpty() || user.isEmpty() || password.isEmpty()){
-            JOptionPane.showMessageDialog(null, "Fill in all fields!");
+            JOptionPane.showMessageDialog(null, "Preencha todos os campos!");
         }else{
 
             Database d1 = new Database();
@@ -172,9 +172,9 @@ public class RegisterScreen extends JFrame {
             try{
                 boolean register = d1.registerUser(name, user, password);
                 if(!register){
-                    JOptionPane.showMessageDialog(null, "User already exist!");       
+                    JOptionPane.showMessageDialog(null, "Usuário já existente!");       
                 }else{
-                    JOptionPane.showMessageDialog(null, "User created sucessfully!");
+                    JOptionPane.showMessageDialog(null, "Usuário criado com sucesso!");
                     new LoginScreen();
                     this.dispose();
                 }      
