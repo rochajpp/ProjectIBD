@@ -1,21 +1,18 @@
 package src.screens;
 
-import java.util.List;
-import javax.swing.*;
-
-import java.awt.*;
-import java.awt.event.ActionListener;
-
+import src.entities.*;
 import src.Database;
 
-
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.List;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
-
-import src.entities.*;
-
-public class CarsScreen{
-    public CarsScreen(User user){
+public class CarsScreen {
+    public CarsScreen(User user) {
         Database d = new Database();
         List<Car> carsUser = d.getCarsByIdUser(user.getId());
 
@@ -34,17 +31,49 @@ public class CarsScreen{
         JScrollPane scrollPane = new JScrollPane(carList);
         frame.add(scrollPane, BorderLayout.CENTER);
 
-        JButton callFunctionButton = new JButton("Adicionar carro");
-        callFunctionButton.addActionListener(new ActionListener() {
+        JButton addCarButton = new JButton("Adicionar Carro");
+        addCarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new RegisterCarScreen(user.getId());
             }
         });
+        frame.add(addCarButton, BorderLayout.SOUTH);
 
-        frame.add(callFunctionButton, BorderLayout.SOUTH);
+        // Adiciona um ListSelectionListener para detectar a seleção de carros
+        carList.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if (!e.getValueIsAdjusting()) {
+                    int selectedIndex = carList.getSelectedIndex();
+                    if (selectedIndex >= 0) {
+                        // Aqui você pode executar a função desejada com base no carro selecionado
+                        Car selectedCar = carListModel.get(selectedIndex);
+                        executeFunction(selectedCar);
+                    }
+                }
+            }
+        });
 
         frame.setVisible(true);
+
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int width = frame.getWidth();
+        int height = frame.getHeight();
+        frame.setLocation((screenSize.width - width) / 2, (screenSize.height - height) / 2);
+    }
+
+    // Função para executar com base no carro selecionado
+    private void executeFunction(Car selectedCar) {
+        // Substitua pelo código que você deseja executar com base no carro selecionado
+        JOptionPane.showMessageDialog(null, "Carro selecionado: " + selectedCar.getId());
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            User user = new User(); // Substitua por seu próprio objeto de usuário
+            new CarsScreen(user);
+        });
     }
 }
 
@@ -61,32 +90,6 @@ class CarListCellRenderer extends JPanel implements ListCellRenderer<Car> {
     public Component getListCellRendererComponent(JList<? extends Car> list, Car car, int index, boolean isSelected, boolean cellHasFocus) {
         label.setText(car.getId() + " - " + car.getBrand() + " " + car.getModel() + " " + car.getManufactureYear() + " - " + car.getValue());
 
-        JButton updateButton = new JButton("Atualizar");
-        updateButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Adicione a lógica para atualizar o carro aqui
-                JOptionPane.showMessageDialog(label, "Carro Atualizado: " + car.getId());
-            }
-        });
-
-        JButton deleteButton = new JButton("Deletar");
-        deleteButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Adicione a lógica para deletar o carro aqui
-                JOptionPane.showMessageDialog(label, "Carro Deletado: " + car.getId());
-            }
-        });
-
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.add(updateButton);
-        buttonPanel.add(deleteButton);
-
-        removeAll();
-        add(label, BorderLayout.CENTER);
-        add(buttonPanel, BorderLayout.EAST);
-
         if (isSelected) {
             setBackground(list.getSelectionBackground());
             setForeground(list.getSelectionForeground());
@@ -96,6 +99,8 @@ class CarListCellRenderer extends JPanel implements ListCellRenderer<Car> {
         }
 
         return this;
-
     }
 }
+
+
+
