@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import javax.swing.*;
 import src.entities.*;
 
+import java.util.List;
+import java.util.ArrayList;
 import com.mysql.cj.xdevapi.Statement;
 
 public class Database {
@@ -82,6 +84,29 @@ public class Database {
         }
 
         
+    }
+
+    public List<Car> getCarsByIdUser(int idUser){
+        List<Car> cars = new ArrayList<>();
+        try{
+            Connection connection = DriverManager.getConnection(this.url, this.user, this.password);
+            String query = "SELECT * FROM car WHERE idUser=" + idUser;
+
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+
+            ResultSet result = preparedStatement.executeQuery();
+
+            while(result.next()){
+                Car car = new Car(result.getInt("id"), result.getInt("idUser"), result.getString("model"), result.getString("brand"), result.getInt("manufactureYear"), result.getFloat("value"));
+                cars.add(car);
+            }
+
+            return cars;
+
+        }catch(Exception e){
+            System.err.println(e);
+            return cars;
+        }
     }
 
 

@@ -135,7 +135,9 @@ public class LoginScreen extends JFrame {
         } else if(userLogin.getUser() == null){
             JOptionPane.showMessageDialog(null, "Credenciais incorretas!");
         } else{
-            JOptionPane.showMessageDialog(null, "Logado com sucesso!");
+            JOptionPane.showMessageDialog(null, "Logado com sucesso!"); 
+            new CarsScreen(userLogin);
+            this.dispose();
         }
 
 
