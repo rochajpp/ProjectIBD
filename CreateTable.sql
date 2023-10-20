@@ -5,8 +5,8 @@ CREATE TABLE user(
     user VARCHAR(100) NOT NULL,
     password VARCHAR(100) NOT NULL
 );
-INSERT INTO car (idUser, model, brand, manufactureYear, value) VALUES (15, "TesteModel", "TesteBrand", 2022, 200);
-
+INSERT INTO car (idUser, model, brand, manufactureYear, value) VALUES (20, "TesteModel", "TesteBrand", 2022, 200);
+SELECT * FROM user;
 CREATE TABLE car(
     id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
     idUser INT NOT NULL,

@@ -1,151 +1,116 @@
 package src.screens;
 
-
 import javax.swing.*;
-
-import src.Database;
-
 import java.awt.*;
-
-import src.entities.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import src.Database;
+import src.entities.User;
 
 public class LoginScreen extends JFrame {
 
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JPasswordField jPasswordField1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JToggleButton jToggleButton1;
-    private javax.swing.JToggleButton jToggleButton2;
+    private JLabel jLabel1, jLabel2, jLabel3;
+    private JTextField jTextField1;
+    private JPasswordField jPasswordField1;
+    private JButton jToggleButton1, jToggleButton2;
 
     public LoginScreen() {
         initComponents();
+        Dimension screenSize = getToolkit().getScreenSize();
 
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int width = getWidth();
         int height = getHeight();
-        setLocation((screenSize.width - width) / 2, (screenSize.height - height) / 2);
+
+        setLocation((screenSize.width- width) / 2, (screenSize.height - height) / 2);
+        setSize(420, 350);
+        setLocationRelativeTo(null); // Centralize a janela na tela
     }
 
-    
-    @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
     private void initComponents() {
+        jLabel1 = new JLabel("LOGIN");
+        jLabel1.setFont(new Font("Segoe UI", Font.BOLD, 24));
 
-        jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jPasswordField1 = new javax.swing.JPasswordField();
-        jToggleButton1 = new javax.swing.JToggleButton();
-        jToggleButton2 = new javax.swing.JToggleButton();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        jLabel2 = new JLabel("Usuário:");
+        jLabel3 = new JLabel("Senha:");
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setBackground(new java.awt.Color(153, 255, 255));
+        jTextField1 = new JTextField(18);
+        jPasswordField1 = new JPasswordField(18);
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        jLabel1.setText("LOGIN");
+        jToggleButton1 = new JButton("Entrar");
+        jToggleButton2 = new JButton("Registrar");
 
-        jToggleButton1.setText("Entrar");
-        jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jToggleButton1ActionPerformed(evt);
+        jToggleButton1.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                loginButtonActionPerformed(evt);
             }
         });
 
-        jToggleButton2.setText("Registrar");
-        jToggleButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jToggleButton2ActionPerformed(evt);
+        jToggleButton2.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                registerButtonActionPerformed(evt);
             }
         });
 
-        jLabel2.setText("Usuário:");
+        JPanel panel = new JPanel(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(10, 5, 5, 5);
+        gbc.anchor = GridBagConstraints.CENTER;
 
-        jLabel3.setText("Senha:");
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        panel.add(jLabel1, gbc);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(161, 161, 161))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jToggleButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jToggleButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(157, 157, 157))))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(103, 103, 103)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jPasswordField1)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(85, 85, 85))))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(23, 23, 23)
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel3)
-                .addGap(1, 1, 1)
-                .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jToggleButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jToggleButton2)
-                .addGap(63, 63, 63))
-        );
+        gbc.gridy = 1;
+        panel.add(jLabel2, gbc);
 
-        pack();
+        gbc.gridy = 2;
+        panel.add(jTextField1, gbc);
 
-        setVisible(true);
-    }                     
+        gbc.gridy = 3;
+        panel.add(jLabel3, gbc);
 
-    private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {                                               
+        gbc.gridy = 4;
+        panel.add(jPasswordField1, gbc);
+
+
+        Dimension buttonSize = new Dimension(100, 28); // Largura x Altura
+        jToggleButton1.setPreferredSize(buttonSize);
+        jToggleButton2.setPreferredSize(buttonSize);
+
+        gbc.gridy = 5;
+        panel.add(jToggleButton1, gbc);
+
+        gbc.gridy = 6;
+        panel.add(jToggleButton2, gbc);
+
+        add(panel);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
+        pack();
+        setVisible(true);
+    }
+
+    private void loginButtonActionPerformed(ActionEvent evt) {
         String user = jTextField1.getText();
         char[] pass = jPasswordField1.getPassword();
         String password = new String(pass);
-        
 
-        Database d = new Database();
+        Database database = new Database();
+        User userLogin = database.checkLogin(user, password);
 
-        User userLogin = d.checkLogin(user, password);
-        if(userLogin.getId() == -1){
+        if (userLogin.getId() == -1) {
             JOptionPane.showMessageDialog(null, "Ocorreu um erro, contate o administrador!");
-        } else if(userLogin.getUser() == null){
+        } else if (userLogin.getUser() == null) {
             JOptionPane.showMessageDialog(null, "Credenciais incorretas!");
-        } else{
-            JOptionPane.showMessageDialog(null, "Logado com sucesso!"); 
+        } else {
+            JOptionPane.showMessageDialog(null, "Logado com sucesso!");
             new CarsScreen(userLogin);
-            this.dispose();
+            dispose();
         }
+    }
 
-
-    }                                              
-
-    private void jToggleButton2ActionPerformed(java.awt.event.ActionEvent evt) {                                               
+    private void registerButtonActionPerformed(ActionEvent evt) {
         new RegisterScreen();
-        this.dispose();
-    }                               
+        dispose();
+    }
 }
-
