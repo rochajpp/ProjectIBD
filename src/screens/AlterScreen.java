@@ -13,33 +13,43 @@ public class AlterScreen extends JFrame{
     private JLabel title, brandLabel, modelLabel, manufactureYearLabel, valueLabel;
     private JTextField brandInput ,modelInput, manufactureYearInput, valueInput;
     private JToggleButton send, back;
+    private Car car;
+    private User user;
 
-
-    public AlterScreen(Car car){
-        initComponents(car);
+    public AlterScreen(User user, Car car){
+        this.user = user;
+        this.car = car;
+        initComponents();
         setSize(420, 380);
+        Dimension screenSize = getToolkit().getScreenSize();
+
+        int width = getWidth();
+        int height = getHeight();
+
+        setLocation((screenSize.width- width) / 2, (screenSize.height - height) / 2);
+
         setLocationRelativeTo(null);
     }
 
-    private void initComponents(Car car){
-        title = new JLabel("ALTERA");
+    private void initComponents(){
+        title = new JLabel("ALTERAR");
         title.setFont(new Font("Segoe UI", Font.BOLD, 24));
 
         brandLabel = new JLabel("Marca:");
         brandInput = new JTextField(20);
-        brandInput.setText(car.getBrand());
+        brandInput.setText(this.car.getBrand());
         
         modelLabel = new JLabel("Modelo:");
         modelInput = new JTextField(20);
-        modelInput.setText(car.getModel());
+        modelInput.setText(this.car.getModel());
 
         manufactureYearLabel = new JLabel("Ano de fabricação:");
         manufactureYearInput = new JTextField(20);
-        manufactureYearInput.setText(Integer.toString(car.getManufactureYear()));
+        manufactureYearInput.setText(Integer.toString(this.car.getManufactureYear()));
         
         valueLabel = new JLabel("Valor:");
         valueInput = new JTextField(20);
-        valueInput.setText(Float.toString(car.getValue()));
+        valueInput.setText(Float.toString(this.car.getValue()));
 
         send = new JToggleButton("Alterar");
         send.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -101,10 +111,28 @@ public class AlterScreen extends JFrame{
     }
 
     private void sendButton(ActionEvent evt){
+        int id = this.car.getId();
+        String brandUpdate = brandInput.getText();
+        String modelUpdate = modelInput.getText();
+        int manufactureYearUpdate = Integer.parseInt(manufactureYearInput.getText());
+        float valueUpdate = Float.parseFloat(valueInput.getText());
+        
+        Database d = new Database();
+        boolean result = d.updateCar(id, brandUpdate, modelUpdate, manufactureYearUpdate, valueUpdate);
 
+        if(result){
+            JOptionPane.showMessageDialog(null, "Carro atualizado com sucesso!");
+            new CarsScreen(this.user);
+            this.dispose();
+            
+        } else{
+            JOptionPane.showMessageDialog(null, "Ocorreu um erro, contate com o administrador do sistema");
+            this.dispose();
+        }
     }
 
     private void backButton(ActionEvent evt){
+        new OptionsScreen(this.user, this.car);
         this.dispose();
     }
 }

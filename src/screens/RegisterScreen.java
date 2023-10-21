@@ -16,6 +16,13 @@ public class RegisterScreen extends JFrame {
     public RegisterScreen() {
         initComponents();
         setSize(420, 350);
+        Dimension screenSize = getToolkit().getScreenSize();
+
+        int width = getWidth();
+        int height = getHeight();
+
+        setLocation((screenSize.width- width) / 2, (screenSize.height - height) / 2);
+        setSize(420, 350);
         setLocationRelativeTo(null);
     }
 

@@ -2,21 +2,31 @@ package src.screens;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
 import src.entities.*;
+import src.Database;
 
 public class OptionsScreen extends JFrame {
 
     private JLabel carInfo;
     private JToggleButton removeButton;
-    private JToggleButton alterButton;
-    private int idUser;
+    private JToggleButton alterButton; 
+    private JToggleButton backButton;
     private Car car;
+    private User user;
 
-    public OptionsScreen(int idUser, Car car) {
-        this.idUser = idUser;
+    public OptionsScreen(User user, Car car) {
+        this.user = user;
         this.car = car;
         initComponents();
         setSize(420, 380);
+        Dimension screenSize = getToolkit().getScreenSize();
+
+        int width = getWidth();
+        int height = getHeight();
+
+        setLocation((screenSize.width - width) / 2, (screenSize.height - height) / 2);
+        setLocationRelativeTo(null); // Centralize a janela na tela
     }
 
     private void initComponents() {
@@ -27,6 +37,10 @@ public class OptionsScreen extends JFrame {
         alterButton = new JToggleButton("Alterar");
         alterButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         alterButton.addActionListener(evt -> alterCarButton(evt));
+
+        backButton = new JToggleButton("Voltar");
+        backButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        backButton.addActionListener(evt -> backPageButton(evt));
 
         carInfo = new JLabel(car.getId() + " - " + car.getBrand() + " " + car.getModel() + " - " + car.getManufactureYear() + " - " + car.getValue());
         carInfo.setFont(new Font("Segoe UI", Font.BOLD, 18));
@@ -48,6 +62,9 @@ public class OptionsScreen extends JFrame {
         gbc.gridy = 3;
         contentPanel.add(removeButton, gbc);
 
+        gbc.gridy++;
+        contentPanel.add(backButton, gbc);
+
         setContentPane(contentPanel);
         
         pack();
@@ -56,11 +73,25 @@ public class OptionsScreen extends JFrame {
     }
 
     private void alterCarButton(java.awt.event.ActionEvent evt) {
-        new AlterScreen(car);
+        new AlterScreen(this.user, car);
+        this.dispose();
     }
 
     private void removeCarButton(java.awt.event.ActionEvent evt){
+        Database d = new Database();
         
+        boolean result = d.removeCar(this.car.getId());
+
+        if(result){
+            JOptionPane.showMessageDialog(null, "Carro removido com sucesso!");
+            new CarsScreen(this.user);
+            this.dispose();
+        }
+    }
+
+    private void backPageButton(ActionEvent evt){
+        new CarsScreen(this.user);
+        this.dispose();
     }
 
 }

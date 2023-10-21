@@ -8,15 +8,17 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.List;
 
-public class CarsScreen {
+public class CarsScreen extends JFrame{
+    private User user;
     public CarsScreen(User user) {
+        this.user = user;
         Database database = new Database();
         List<Car> carsUser = database.getCarsByIdUser(user.getId());
 
-        JFrame frame = new JFrame("Lista de Carros");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(400, 300);
-        frame.setLocationRelativeTo(null);
+        
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(400, 300);
+        setLocationRelativeTo(null);
 
         DefaultListModel<Car> carListModel = new DefaultListModel<>();
         carListModel.addAll(carsUser);
@@ -25,11 +27,11 @@ public class CarsScreen {
         carList.setCellRenderer(new CarListCellRenderer());
 
         JScrollPane scrollPane = new JScrollPane(carList);
-        frame.add(scrollPane, BorderLayout.CENTER);
+        add(scrollPane, BorderLayout.CENTER);
 
         JButton addCarButton = new JButton("Adicionar Carro");
         addCarButton.addActionListener(e -> addCarButtonActionPerformed(user));
-        frame.add(addCarButton, BorderLayout.SOUTH);
+        add(addCarButton, BorderLayout.SOUTH);
 
         carList.addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
@@ -41,15 +43,26 @@ public class CarsScreen {
             }
         });
 
-        frame.setVisible(true);
+        Dimension screenSize = getToolkit().getScreenSize();
+
+        int width = getWidth();
+        int height = getHeight();
+
+        setLocation((screenSize.width - width) / 2, (screenSize.height - height) / 2);
+        setSize(420, 350);
+        setLocationRelativeTo(null);
+
+        setVisible(true);
     }
 
     private void executeFunction(Car selectedCar, int idUser) {
-        new OptionsScreen(idUser, selectedCar);
+        new OptionsScreen(this.user, selectedCar);
+        this.dispose();
     }
 
     private void addCarButtonActionPerformed(User user) {
-        // Implementar a ação para adicionar um novo carro aqui
+        new AddCarScreen(this.user);
+        this.dispose();
     }
 }
 

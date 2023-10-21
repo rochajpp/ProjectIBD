@@ -110,4 +110,55 @@ public class Database {
     }
 
 
+    public boolean updateCar(int id, String model, String brand, int manufactureYear, float value){
+        try{
+            Connection connection = DriverManager.getConnection(this.url, this.user, this.password);
+            
+            String query = "UPDATE car SET model = '" + model + "', brand = '" + brand + "', manufactureYear = " + manufactureYear  + ", value = " + value + " WHERE id = " + id;
+
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            int result = preparedStatement.executeUpdate();
+
+            return true;
+        }catch(Exception e){
+            System.err.println(e);
+            return false;
+        }
+    }
+
+
+    public boolean removeCar(int id){
+        try{
+            Connection connection = DriverManager.getConnection(this.url, this.user, this.password);
+
+            String query = "DELETE FROM car WHERE id = " + id;
+            
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+
+            int result = preparedStatement.executeUpdate();
+
+            return true;
+        }catch(Exception e){
+            System.err.println(e);
+            return false;
+        }
+    }
+
+
+    public boolean addCar(int idUser, String brand, String model, int manufactureYear, float value){
+        try{
+            Connection  connection = DriverManager.getConnection(this.url, this.user, this.password);
+            
+            String query = "INSERT INTO car (idUser, brand, model, manufactureYear, value) VALUES (" + idUser + ", '" + brand + "', '" + model + "', " + manufactureYear + ", " + value + ")";
+            System.out.println(query);
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+
+            int result = preparedStatement.executeUpdate();
+
+            return true;
+        }catch(Exception e){
+            System.err.println(e);
+            return false;
+        }
+    }
 }
