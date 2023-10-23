@@ -11,11 +11,47 @@ import java.util.List;
 import java.util.ArrayList;
 import com.mysql.cj.xdevapi.Statement;
 
+import javax.crypto.Cipher;
+import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
+import java.util.Base64;
+
 public class Database {
 
     private String url = "jdbc:mysql://localhost:3306/projectibd";
     private String user = "root";
     private String password = "database";
+
+    private byte[] scretKey = new byte[16];
+
+    public String encryptPassword(String password) {
+        try {
+            SecretKey key = new SecretKeySpec(scretKey, "AES");
+            Cipher cipher = Cipher.getInstance("AES");
+            cipher.init(Cipher.ENCRYPT_MODE, key);
+            byte[] encryptedBytes = cipher.doFinal(password.getBytes());
+            String encryptedPassword = Base64.getEncoder().encodeToString(encryptedBytes);
+            return encryptedPassword;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public String decryptPassword(String encryptedPassword) {
+        try {
+            SecretKey key = new SecretKeySpec(scretKey, "AES");
+            Cipher cipher = Cipher.getInstance("AES");
+            cipher.init(Cipher.DECRYPT_MODE, key);
+            byte[] encryptedBytes = Base64.getDecoder().decode(encryptedPassword);
+            byte[] decryptedBytes = cipher.doFinal(encryptedBytes);
+            String decryptedPassword = new String(decryptedBytes);
+            return decryptedPassword;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
 
     public int registerUser(String name, String cpf, String user, String password){
@@ -43,6 +79,8 @@ public class Database {
             if(result.next() ){             
                 return 1;
             }
+
+            password = encryptPassword(password);
 
 
             String query = "INSERT INTO user (name, cpf, user, password) VALUES ('" + name + "', '" + cpf + "', '" + user + "', '" + password + "');"; 
@@ -75,6 +113,7 @@ public class Database {
             User userCheck = new User();
             while(result.next()){
                 String passDb = result.getString("password");
+                passDb = decryptPassword(passDb);
                 if(!passDb.equals(password)){
                     return new User();
                 }
