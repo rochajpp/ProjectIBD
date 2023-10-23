@@ -18,7 +18,7 @@ public class Database {
     private String password = "database";
 
 
-    public boolean registerUser(String name, String user, String password){
+    public int registerUser(String name, String cpf, String user, String password){
 
         user = user.toLowerCase();
 
@@ -28,17 +28,24 @@ public class Database {
 
 
             String queryCheck = "SELECT * FROM user WHERE user = '" + user + "'";
+            String queryCpf = "SELECT * FROM user WHERE cpf = '" + cpf + "'";
 
             PreparedStatement checkUser = connection.prepareStatement(queryCheck);
+            PreparedStatement checkCpf = connection.prepareStatement(queryCpf);
 
             ResultSet result = checkUser.executeQuery();
+            ResultSet result2 = checkCpf.executeQuery();
 
-            if(result.next()){             
-                return false;
+            if(result2.next()){
+                return 0;
+            }
+
+            if(result.next() ){             
+                return 1;
             }
 
 
-            String query = "INSERT INTO user (name, user, password) VALUES ('" + name + "', '" + user + "', '" + password + "');"; 
+            String query = "INSERT INTO user (name, cpf, user, password) VALUES ('" + name + "', '" + cpf + "', '" + user + "', '" + password + "');"; 
             
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             
@@ -49,8 +56,9 @@ public class Database {
 
         }catch(Exception e){
             e.printStackTrace();
+            return 8;
         }
-        return true;
+        return 2;
 
     }
 
@@ -110,7 +118,7 @@ public class Database {
     }
 
 
-    public boolean updateCar(int id, String model, String brand, int manufactureYear, float value){
+    public boolean updateCar(int id, String model, String brand, int manufactureYear, double value){
         try{
             Connection connection = DriverManager.getConnection(this.url, this.user, this.password);
             
@@ -145,12 +153,11 @@ public class Database {
     }
 
 
-    public boolean addCar(int idUser, String brand, String model, int manufactureYear, float value){
+    public boolean addCar(int idUser, String brand, String model, int manufactureYear, double value){
         try{
             Connection  connection = DriverManager.getConnection(this.url, this.user, this.password);
             
             String query = "INSERT INTO car (idUser, brand, model, manufactureYear, value) VALUES (" + idUser + ", '" + brand + "', '" + model + "', " + manufactureYear + ", " + value + ")";
-            System.out.println(query);
             PreparedStatement preparedStatement = connection.prepareStatement(query);
 
             int result = preparedStatement.executeUpdate();

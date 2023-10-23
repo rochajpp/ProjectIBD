@@ -8,47 +8,50 @@ import src.Database;
 
 public class RegisterScreen extends JFrame {
 
-    private JLabel jLabel1, jLabel2, jLabel3, jLabel4;
-    private JTextField jTextField1, jTextField2;
-    private JPasswordField jPasswordField1;
-    private JButton jToggleButton1, jToggleButton2;
+    private JLabel title, name, cpf, username, password;
+    private JTextField nameInput, cpfInput, usernameInput;
+    private JPasswordField passwordInput;
+    private JButton send, back;
 
     public RegisterScreen() {
         initComponents();
-        setSize(420, 350);
+        setSize(400, 420);
         Dimension screenSize = getToolkit().getScreenSize();
 
         int width = getWidth();
         int height = getHeight();
 
         setLocation((screenSize.width- width) / 2, (screenSize.height - height) / 2);
-        setSize(420, 350);
+    
         setLocationRelativeTo(null);
     }
 
     private void initComponents() {
-        jLabel1 = new JLabel("REGISTRAR");
-        jLabel1.setFont(new Font("Segoe UI", Font.BOLD, 24));
+        title = new JLabel("REGISTRAR");
+        title.setFont(new Font("Segoe UI", Font.BOLD, 24));
 
-        jLabel2 = new JLabel("Nome:");
-        jTextField1 = new JTextField(20);
+        name = new JLabel("Nome:");
+        nameInput = new JTextField(20);
 
-        jLabel3 = new JLabel("Usuário:");
-        jTextField2 = new JTextField(20);
+        cpf = new JLabel("CPF:");
+        cpfInput = new JTextField(20);
 
-        jLabel4 = new JLabel("Senha:");
-        jPasswordField1 = new JPasswordField(20);
+        username = new JLabel("Usuário:");
+        usernameInput = new JTextField(20);
+
+        password = new JLabel("Senha:");
+        passwordInput = new JPasswordField(20);
         
-        jToggleButton1 = new JButton("Registrar");
-        jToggleButton2 = new JButton("Voltar");
+        send = new JButton("Registrar");
+        back = new JButton("Voltar");
 
-        jToggleButton1.addActionListener(new ActionListener() {
+        send.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 registerButtonActionPerformed(evt);
             }
         });
 
-        jToggleButton2.addActionListener(new ActionListener() {
+        back.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 backButtonActionPerformed(evt);
             }
@@ -60,38 +63,44 @@ public class RegisterScreen extends JFrame {
 
         gbc.gridx = 0;
         gbc.gridy = 0;
-        panel.add(jLabel1, gbc);
+        panel.add(title, gbc);
 
         gbc.gridy++;
-        panel.add(jLabel2, gbc);
+        panel.add(name, gbc);
 
         gbc.gridy++;
-        panel.add(jTextField1, gbc);
+        panel.add(nameInput, gbc);
 
         gbc.gridy++;
-        panel.add(jLabel3, gbc);
+        panel.add(cpf, gbc);
 
         gbc.gridy++;
-        panel.add(jTextField2, gbc);
+        panel.add(cpfInput, gbc);
 
         gbc.gridy++;
-        panel.add(jLabel4, gbc);
+        panel.add(username, gbc);
 
         gbc.gridy++;
-        panel.add(jPasswordField1, gbc);
+        panel.add(usernameInput, gbc);
+
+        gbc.gridy++;
+        panel.add(password, gbc);
+
+        gbc.gridy++;
+        panel.add(passwordInput, gbc);
 
         gbc.gridy++;
         gbc.insets = new Insets(10, 10, 10, 10);
 
         Dimension buttonSize = new Dimension(150, 30);
-        jToggleButton1.setPreferredSize(buttonSize);
-        jToggleButton2.setPreferredSize(buttonSize);
+        send.setPreferredSize(buttonSize);
+        back.setPreferredSize(buttonSize);
 
         gbc.gridy++;
-        panel.add(jToggleButton1, gbc);
+        panel.add(send, gbc);
 
         gbc.gridy++;
-        panel.add(jToggleButton2, gbc);
+        panel.add(back, gbc);
 
         add(panel);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -100,33 +109,42 @@ public class RegisterScreen extends JFrame {
     }
 
     private void registerButtonActionPerformed(ActionEvent evt) {
-        String name = jTextField1.getText();
-        String user = jTextField2.getText();
-        char[] pass = jPasswordField1.getPassword();
+        String name = nameInput.getText();
+        String cpf = cpfInput.getText();
+        String user = usernameInput.getText();
+        char[] pass = passwordInput.getPassword();
         String password = new String(pass);
+
+        if(cpf.length() != 11){
+            JOptionPane.showMessageDialog(null, "CPF inválido!");
+            return;
+        }
 
         if (name.isEmpty() || user.isEmpty() || password.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Preencha todos os campos!");
-        } else {
-            Database database = new Database();
-
-            try {
-                boolean register = database.registerUser(name, user, password);
-                if (!register) {
-                    JOptionPane.showMessageDialog(null, "Usuário já existente!");
-                } else {
-                    JOptionPane.showMessageDialog(null, "Usuário criado com sucesso!");
-                    new LoginScreen();
-                    this.dispose();
-                }
-            } catch (Exception e) {
-                System.err.println(e);
-            }
+            return;
         }
+
+
+        Database database = new Database();
+
+        int register = database.registerUser(name, cpf, user, password);
+        if(register == 0){
+            JOptionPane.showMessageDialog(null, "CPF já cadastrado!");
+        }else if (register == 1) {
+            JOptionPane.showMessageDialog(null, "Usuário já existente!");
+        } else if(register == 2){
+            JOptionPane.showMessageDialog(null, "Usuário criado com sucesso!");
+            new LoginScreen();
+            this.dispose();
+        }else{
+            JOptionPane.showMessageDialog(null, "Ocorreu um erro, contate o administrado do sistema!");
+        }      
     }
 
     private void backButtonActionPerformed(ActionEvent evt) {
         new LoginScreen();
         this.dispose();
     }
+    
 }

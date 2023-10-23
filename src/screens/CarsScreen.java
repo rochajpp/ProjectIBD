@@ -77,7 +77,7 @@ class CarListCellRenderer extends JPanel implements ListCellRenderer<Car> {
 
     @Override
     public Component getListCellRendererComponent(JList<? extends Car> list, Car car, int index, boolean isSelected, boolean cellHasFocus) {
-        label.setText(car.getId() + " - " + car.getBrand() + " " + car.getModel() + " " + car.getManufactureYear() + " - " + car.getValue());
+        label.setText((index + 1) + " - " + car.getBrand() + " " + car.getModel() + " " + car.getManufactureYear() + " - " + car.getValue());
 
         if (isSelected) {
             setBackground(list.getSelectionBackground());

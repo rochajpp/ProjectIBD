@@ -6,7 +6,7 @@ public class Car {
     private String model;
     private String brand;
     private int manufactureYear;
-    private float value;
+    private double value;
 
     public Car(int id, int idUser, String model, String brand, int manufactureYear, float value){
         this.id = id;
@@ -52,10 +52,10 @@ public class Car {
         this.manufactureYear = manufactureYear;
     }
 
-    public float getValue(){
+    public double getValue(){
         return this.value;
     }
-    public void setValue(float value){
+    public void setValue(double value){
         this.value = value;
     }
     

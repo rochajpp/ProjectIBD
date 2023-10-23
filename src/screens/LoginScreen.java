@@ -9,10 +9,10 @@ import src.entities.User;
 
 public class LoginScreen extends JFrame {
 
-    private JLabel jLabel1, jLabel2, jLabel3;
-    private JTextField jTextField1;
-    private JPasswordField jPasswordField1;
-    private JButton jToggleButton1, jToggleButton2;
+    private JLabel title, usernameLabel, passwordLabel;
+    private JTextField usernameInput;
+    private JPasswordField passwordInput;
+    private JButton send, register;
 
     public LoginScreen() {
         initComponents();
@@ -27,25 +27,25 @@ public class LoginScreen extends JFrame {
     }
 
     private void initComponents() {
-        jLabel1 = new JLabel("LOGIN");
-        jLabel1.setFont(new Font("Segoe UI", Font.BOLD, 24));
+        title = new JLabel("LOGIN");
+        title.setFont(new Font("Segoe UI", Font.BOLD, 24));
 
-        jLabel2 = new JLabel("Usuário:");
-        jLabel3 = new JLabel("Senha:");
+        usernameLabel = new JLabel("Usuário:");
+        passwordLabel = new JLabel("Senha:");
 
-        jTextField1 = new JTextField(18);
-        jPasswordField1 = new JPasswordField(18);
+        usernameInput = new JTextField(18);
+        passwordInput = new JPasswordField(18);
 
-        jToggleButton1 = new JButton("Entrar");
-        jToggleButton2 = new JButton("Registrar");
+        send = new JButton("Entrar");
+        register = new JButton("Registrar");
 
-        jToggleButton1.addActionListener(new ActionListener() {
+        send.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 loginButtonActionPerformed(evt);
             }
         });
 
-        jToggleButton2.addActionListener(new ActionListener() {
+        register.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 registerButtonActionPerformed(evt);
             }
@@ -58,30 +58,30 @@ public class LoginScreen extends JFrame {
 
         gbc.gridx = 0;
         gbc.gridy = 0;
-        panel.add(jLabel1, gbc);
+        panel.add(title, gbc);
 
         gbc.gridy = 1;
-        panel.add(jLabel2, gbc);
+        panel.add(usernameLabel, gbc);
 
         gbc.gridy = 2;
-        panel.add(jTextField1, gbc);
+        panel.add(usernameInput, gbc);
 
         gbc.gridy = 3;
-        panel.add(jLabel3, gbc);
+        panel.add(passwordLabel, gbc);
 
         gbc.gridy = 4;
-        panel.add(jPasswordField1, gbc);
+        panel.add(passwordInput, gbc);
 
 
         Dimension buttonSize = new Dimension(100, 28); // Largura x Altura
-        jToggleButton1.setPreferredSize(buttonSize);
-        jToggleButton2.setPreferredSize(buttonSize);
+        send.setPreferredSize(buttonSize);
+        register.setPreferredSize(buttonSize);
 
         gbc.gridy = 5;
-        panel.add(jToggleButton1, gbc);
+        panel.add(send, gbc);
 
         gbc.gridy = 6;
-        panel.add(jToggleButton2, gbc);
+        panel.add(register, gbc);
 
         add(panel);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -91,8 +91,8 @@ public class LoginScreen extends JFrame {
     }
 
     private void loginButtonActionPerformed(ActionEvent evt) {
-        String user = jTextField1.getText();
-        char[] pass = jPasswordField1.getPassword();
+        String user = usernameInput.getText();
+        char[] pass = passwordInput.getPassword();
         String password = new String(pass);
 
         Database database = new Database();

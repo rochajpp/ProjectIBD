@@ -49,7 +49,7 @@ public class AlterScreen extends JFrame{
         
         valueLabel = new JLabel("Valor:");
         valueInput = new JTextField(20);
-        valueInput.setText(Float.toString(this.car.getValue()));
+        valueInput.setText(Double.toString(this.car.getValue()));
 
         send = new JToggleButton("Alterar");
         send.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -115,7 +115,7 @@ public class AlterScreen extends JFrame{
         String brandUpdate = brandInput.getText();
         String modelUpdate = modelInput.getText();
         int manufactureYearUpdate = Integer.parseInt(manufactureYearInput.getText());
-        float valueUpdate = Float.parseFloat(valueInput.getText());
+        double valueUpdate = Double.parseDouble(valueInput.getText());
         
         Database d = new Database();
         boolean result = d.updateCar(id, brandUpdate, modelUpdate, manufactureYearUpdate, valueUpdate);

@@ -3,6 +3,7 @@ CREATE TABLE user(
     id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
     name VARCHAR(100) NOT NULL,
     user VARCHAR(100) NOT NULL,
+    cpf VARCHAR(11) NOT NULL,
     password VARCHAR(100) NOT NULL
 );
 
@@ -19,4 +20,5 @@ CREATE TABLE car(
 
 
 INSERT INTO car (idUser, model, brand, manufactureYear, value) VALUES (1, "TesteModel", "TesteBrand", 2022, 200);
-SELECT * FROM user;
+DELETE FROM user;
+ALTER TABLE user ADD COLUMN cpf VARCHAR(11) NOT NULL;

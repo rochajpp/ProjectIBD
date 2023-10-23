@@ -105,7 +105,7 @@ public class AddCarScreen extends JFrame{
         String brand = brandInput.getText();
         String model = modelInput.getText();
         int manufactureYear = Integer.parseInt(manufactureYearInput.getText());
-        float value = Float.parseFloat(valueInput.getText());
+        Double value = Double.parseDouble(valueInput.getText());
 
         
         boolean result = d.addCar(idUser, brand, model, manufactureYear, value);
