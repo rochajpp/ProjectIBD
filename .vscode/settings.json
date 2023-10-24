@@ -15,7 +15,9 @@
         }
     ],
         
-    "java.classpath": ["lib/mysql.connector-j-8.0.33.jar"]
+    "java.project.referencedLibraries": [
+        "lib/mysql-connector-j-8.0.33.jar"
+    ]
 
     
 }
