@@ -120,7 +120,7 @@ public class RegisterScreen extends JFrame {
             return;
         }
 
-        if(cpfScanner(cpf)){
+        if(!cpfScanner(cpf)){
             JOptionPane.showMessageDialog(null, "CPF inválido!");
             return;
         }
@@ -154,52 +154,36 @@ public class RegisterScreen extends JFrame {
     
 
     private boolean cpfScanner(String cpf) {
+       
         cpf = cpf.replaceAll("[^0-9]", "");
-        
-        if (cpf.length() != 11) {
+
+        if (cpf.matches("(\\d)\\1{10}")) {
             return false;
         }
 
-        
-        String noDV3 = cpf.substring(0, 9);
+        int soma = 0;
+        for (int i = 0; i < 9; i++) {
+            soma += Character.getNumericValue(cpf.charAt(i)) * (10 - i);
+        }
+        int digito1 = (soma % 11 < 2) ? 0 : 11 - (soma % 11);
 
-        
-        String dv3Str = cpf.substring(9, 11);
-        
-        int dv3 = Integer.parseInt(dv3Str);
 
-        
-        int p1 = Integer.parseInt(String.valueOf(noDV3.charAt(0)));
-        int p2 = Integer.parseInt(String.valueOf(noDV3.charAt(1)));
-        int p3 = Integer.parseInt(String.valueOf(noDV3.charAt(2)));
-        int p4 = Integer.parseInt(String.valueOf(noDV3.charAt(3)));
-        int p5 = Integer.parseInt(String.valueOf(noDV3.charAt(4)));
-        int p6 = Integer.parseInt(String.valueOf(noDV3.charAt(5)));
-        int p7 = Integer.parseInt(String.valueOf(noDV3.charAt(6)));
-        int p8 = Integer.parseInt(String.valueOf(noDV3.charAt(7)));
-        int p9 = Integer.parseInt(String.valueOf(noDV3.charAt(8)));
-
-        int dv1;
-        int dv2;
-
-        int somaDosProdutosDV1 = (p1 * 10) + (p2 * 9) + (p3 * 8) + (p4 * 7) + (p5 * 6) + (p6 * 5) + (p7 * 4) + (p8 * 3) + (p9 * 2);
-        int modDV1 = (somaDosProdutosDV1 * 10) % 11;
-        if (modDV1 == 10) {
-            dv1 = 0;
-        } else {
-            dv1 = modDV1;
+        if (Character.getNumericValue(cpf.charAt(9)) != digito1) {
+            return false;
         }
 
-        int somaDosProdutosDV2 = (p1 * 11) + (p2 * 10) + (p3 * 9) + (p4 * 8) + (p5 * 7) + (p6 * 6) + (p7 * 5) + (p8 * 4) + (p9 * 3);
-        dv2 = (somaDosProdutosDV2 + (dv1 * 2)) * 10;
-        int modDV2 = dv2 % 11;
-        if (modDV2 == 10) {
-            dv2 = 0;
-        } else {
-            dv2 = modDV2;
+
+        soma = 0;
+        for (int i = 0; i < 10; i++) {
+            soma += Character.getNumericValue(cpf.charAt(i)) * (11 - i);
+        }
+        int digito2 = (soma % 11 < 2) ? 0 : 11 - (soma % 11);
+
+
+        if (Character.getNumericValue(cpf.charAt(10)) != digito2) {
+            return false;
         }
 
-        
-        return dv3 == (dv1 * 10 + dv2);
+        return true;
     }
 }

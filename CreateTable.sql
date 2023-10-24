@@ -20,5 +20,5 @@ CREATE TABLE car(
 
 
 INSERT INTO car (idUser, model, brand, manufactureYear, value) VALUES (1, "TesteModel", "TesteBrand", 2022, 200);
-SELECT * FROM user;
+DELETE FROM user;
 ALTER TABLE user ADD COLUMN cpf VARCHAR(11) NOT NULL;
