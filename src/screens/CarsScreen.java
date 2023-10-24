@@ -53,6 +53,7 @@ public class CarsScreen extends JFrame{
         setLocationRelativeTo(null);
 
         setVisible(true);
+        setTitle("Abner");
     }
 
     private void executeFunction(Car selectedCar, int idUser) {

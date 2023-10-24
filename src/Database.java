@@ -20,13 +20,13 @@ public class Database {
 
     private String url = "jdbc:mysql://localhost:3306/projectibd";
     private String user = "root";
-    private String password = "database";
+    private String password = "123456";
 
-    private byte[] scretKey = new byte[16];
+    private byte[] secretKey = new byte[16];
 
     public String encryptPassword(String password) {
         try {
-            SecretKey key = new SecretKeySpec(scretKey, "AES");
+            SecretKey key = new SecretKeySpec(secretKey, "AES");
             Cipher cipher = Cipher.getInstance("AES");
             cipher.init(Cipher.ENCRYPT_MODE, key);
             byte[] encryptedBytes = cipher.doFinal(password.getBytes());
@@ -40,7 +40,7 @@ public class Database {
 
     public String decryptPassword(String encryptedPassword) {
         try {
-            SecretKey key = new SecretKeySpec(scretKey, "AES");
+            SecretKey key = new SecretKeySpec(secretKey, "AES");
             Cipher cipher = Cipher.getInstance("AES");
             cipher.init(Cipher.DECRYPT_MODE, key);
             byte[] encryptedBytes = Base64.getDecoder().decode(encryptedPassword);
