@@ -112,7 +112,7 @@ public class AddCarScreen extends JFrame{
 
         if(result){
             JOptionPane.showMessageDialog(null, "Carro adicionado com sucesso!");
-            new CarsScreen(this.user);
+            new CarsScreen(this.user, null);
             this.dispose();
         } else{
             JOptionPane.showMessageDialog(null, "Ocorreu um erro, contate o administrador do sistema");
@@ -120,7 +120,7 @@ public class AddCarScreen extends JFrame{
     }
 
     private void backButton(ActionEvent evt){
-        new CarsScreen(this.user);
+        new CarsScreen(this.user, null);
         this.dispose();
     }
     

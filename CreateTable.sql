@@ -17,9 +17,10 @@ CREATE TABLE car(
     FOREIGN KEY (idUser) REFERENCES user(id)
 );
 
+SELECT * FROM car WHERE idUser = 22 AND (brand LIKE "%brand%" OR model LIKE "%brand%");
 
-
-INSERT INTO car (idUser, model, brand, manufactureYear, value) VALUES (1, "TesteModel", "TesteBrand", 2022, 200);
+INSERT INTO car (idUser, model, brand, manufactureYear, value) VALUES (24, "TesteModel", "TesteBrand", 2022, 200);
+DELETE FROM car;
 DELETE FROM user;
 SELECT * FROM user;
 ALTER TABLE user ADD COLUMN cpf VARCHAR(11) NOT NULL;

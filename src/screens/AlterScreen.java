@@ -122,7 +122,7 @@ public class AlterScreen extends JFrame{
 
         if(result){
             JOptionPane.showMessageDialog(null, "Carro atualizado com sucesso!");
-            new CarsScreen(this.user);
+            new CarsScreen(this.user, null);
             this.dispose();
             
         } else{

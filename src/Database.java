@@ -20,7 +20,7 @@ public class Database {
 
     private String url = "jdbc:mysql://localhost:3306/projectibd";
     private String user = "root";
-    private String password = "123456";
+    private String password = "database";
 
     private byte[] secretKey = new byte[16];
 
@@ -144,7 +144,7 @@ public class Database {
             ResultSet result = preparedStatement.executeQuery();
 
             while(result.next()){
-                Car car = new Car(result.getInt("id"), result.getInt("idUser"), result.getString("model"), result.getString("brand"), result.getInt("manufactureYear"), result.getFloat("value"));
+                Car car = new Car(result.getInt("id"), result.getInt("idUser"), result.getString("model"), result.getString("brand"), result.getInt("manufactureYear"), result.getDouble("value"));
                 cars.add(car);
             }
 
@@ -206,5 +206,30 @@ public class Database {
             System.err.println(e);
             return false;
         }
+    }
+
+    public List<Car> searchCars(int idUser, String search){
+        
+        List<Car> cars = new ArrayList<Car>();
+
+        try{
+            Connection connection = DriverManager.getConnection(this.url, this.user, this.password);
+
+            String query = "SELECT * FROM car WHERE idUser=" + idUser + " AND (brand LIKE '%" + search + "%' OR model LIKE '%" + search + "%')";
+
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+
+            ResultSet result = preparedStatement.executeQuery();
+
+            while(result.next()){
+                Car car = new Car(result.getInt("id"), result.getInt("idUser"), result.getString("model"), result.getString("brand"), result.getInt("manufactureYear"), result.getDouble("value"));
+                cars.add(car);
+            }
+        }catch(Exception e){
+            System.err.println(e);
+            return null;
+        }
+
+        return cars;
     }
 }

@@ -8,7 +8,7 @@ public class Car {
     private int manufactureYear;
     private double value;
 
-    public Car(int id, int idUser, String model, String brand, int manufactureYear, float value){
+    public Car(int id, int idUser, String model, String brand, int manufactureYear, double value){
         this.id = id;
         this.idUser = idUser;
         this.model = model;

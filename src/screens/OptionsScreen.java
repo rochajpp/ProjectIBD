@@ -84,13 +84,13 @@ public class OptionsScreen extends JFrame {
 
         if(result){
             JOptionPane.showMessageDialog(null, "Carro removido com sucesso!");
-            new CarsScreen(this.user);
+            new CarsScreen(this.user, null);
             this.dispose();
         }
     }
 
     private void backPageButton(ActionEvent evt){
-        new CarsScreen(this.user);
+        new CarsScreen(this.user, null);
         this.dispose();
     }
 
